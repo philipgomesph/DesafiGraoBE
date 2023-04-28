@@ -27,18 +27,18 @@ export default class UsersController {
 
     const loginUserService = new LoginUserService(userRepository);
 
-    const result = await loginUserService.execute({
+    const msg = await loginUserService.execute({
       email,
       password,
     });
 
-    if (result === "Senha invalida") {
-      return response.status(400).json(result);
+    if (msg === "Senha invalida") {
+      return response.status(400).json({ msg });
     }
-    if (result === "Usuario nao encontrado") {
-      return response.status(404).json(result);
+    if (msg === "Usuario nao encontrado") {
+      return response.status(404).json({ msg });
     }
 
-    return response.status(200).json(result);
+    return response.status(200).json({ msg });
   }
 }

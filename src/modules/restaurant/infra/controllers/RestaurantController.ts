@@ -3,6 +3,7 @@ import ShowAllRestaurantService from "../services/ShowAllRestaurantService";
 import CreateRestaurantService from "../services/CreateRestaurantService";
 import RestaurantRepository from "../../../../shared/infra/database/repositories/RestaurantRepository";
 import RestaurantMenuService from "../services/RestaurantMenuService";
+import ShowOneRestaurantService from "../services/ShowOneRestaurantService";
 
 export default class RestaurantController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -48,5 +49,22 @@ export default class RestaurantController {
       return response.status(404).json("Menu not found");
     }
     return response.status(200).json(menuDetail?.menu);
+  }
+
+  public async showName(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const restaurantRepository = new RestaurantRepository();
+    const restaurantService = new ShowOneRestaurantService(
+      restaurantRepository
+    );
+    const restaurant = await restaurantService.execute({
+      id,
+    });
+
+    return response.status(200).json(restaurant);
   }
 }

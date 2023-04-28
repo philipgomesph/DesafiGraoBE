@@ -44,9 +44,28 @@ export default class RestaurantRepository {
       }
       return oneRestaurant;
     } catch (error) {
-      console.error("Error finding Restaurant by name\nError: ", error);
+      console.error("Error finding Restaurant by id\nError: ", error);
 
-      throw new AppError(`Error finding Restaurant by name ${error}`);
+      throw new AppError(`Error finding Restaurant by id ${error}`);
+    }
+  }
+
+  async showOneRestaurant({ id }: IDetailMenu): Promise<IResturantDTO | null> {
+    try {
+      const oneRestaurant: IResturantDTO | null = await Restaurant.findOne({
+        _id: id,
+      });
+
+      if (!oneRestaurant) {
+        console.log("Restaurante nao encontrado");
+        return null;
+      }
+
+      return oneRestaurant;
+    } catch (error) {
+      console.error("Error finding Restaurant by id\nError: ", error);
+
+      throw new AppError(`Error finding Restaurant by id ${error}`);
     }
   }
 }
